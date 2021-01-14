@@ -1,0 +1,148 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+
+
+<div     id="projeto">
+    <div :style="{border: '2px ridge #f1f1f1','margin-bottom':'30px'}">
+        <div class="container">
+            <h3 >{{jogador.nome}}</h3>
+            <h3>{{monstro.nome}}</h3>
+        </div>
+        <div class="container">
+            <div class="barraVida">
+                <div class="vida" :class="verificaVida(jogador.vida)? 'vidaFim': ''" :style="{width: jogador.vida+'%'}"></div>
+            </div>
+            <div class="barraVida">
+                <div class="vida" :class="verificaVida(monstro.vida)? 'vidaFim': ''"  :style="{width: monstro.vida+'%'}"></div> 
+            </div>  
+        </div>
+        <div class="container">
+            <h5 >{{jogador.vida}}%</h5>
+            <h5 >{{monstro.vida}}%</h5>   
+        </div>
+    </div>
+    
+    <div :style="{border: '2px ridge #f1f1f1','margin-bottom':'30px'}" class="subContainer">
+        <div v-if="verificaPartida()">
+            <div>
+                <h1 v-if="this.monstro.vida == 0" :style="{color: 'greenyellow'}" >Voce Venceu!! :))</h1>
+                <h1 v-else-if="(this.monstro.vida ==0 && this.jogador.vida == 0)"> Empate!!</h1>
+                <h1 v-else :style="{color: 'red'}" >Voce Perdeu!! :((</h1>
+            </div>
+            <br>
+            <div>
+                <button @click="iniciarPartida()" class="button buttonPartida">INICIAR PARTIDA</button>
+            </div>
+        </div>
+    </div>
+        
+    <div :style="{border: '2px ridge #f1f1f1','margin-bottom':'30px'}" class="subContainer">
+        <template v-if="partida" >
+            <button @click="ataque()" class="button buttonAtaque">ATAQUE</button>
+            <button @click="ataqueEspecial()" class="button buttonAtaqueEspecial">ATAQUE ESPECIAL</button>
+            <button @click="curarJogador()" class="button buttonCurar">CURAR</button>
+            <button @click="partida=!partida" class="button buttonDesistir">DESISTIR</button>
+        </template>
+        <button v-else-if="!fim" @click="iniciarPartida()" class="button buttonPartida">INICIAR PARTIDA</button>
+    </div>
+    
+    <div :style="{border: '2px ridge #f1f1f1','margin-bottom':'30px'}" class="subContainer">
+        
+            <ul>
+                <li  v-for="(log,i) in logs" :style="i%2==0? {'background-color': 'rgb(238, 57, 51)'} : {'background-color': 'rgb(118, 71, 206)'}">{{log}}</li>
+            </ul>  
+    </div>
+
+</div>
+
+
+
+<script src="app.js"></script>
+<style>
+    .container{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .subContainer{
+        display: flex;
+        justify-content: center;
+    }
+
+    .barraVida{         
+        width: 25%;
+        height: 20px;
+        border: 2px solid gray;
+    }
+
+    .vida{
+        height: 100%;
+        background-color:green;
+    }
+
+    .vidaFim{
+        background-color: red;
+    }
+
+    .button{
+        border-radius: 5px;
+        margin: 5px 5px 5px 5px;
+        font-size: 30px;
+    }
+
+    .buttonPartida{
+        border: 1px solid blue;
+        background-color: blue;
+        color: black;
+    }
+
+    .buttonAtaque{
+        border: 1px solid red;
+        background-color: red;
+        color: rgb(0, 0, 0);
+    }
+    .buttonAtaqueEspecial{
+        border: 1px solid orange;
+        background-color: orange;
+        color: black;
+    }
+    .buttonCurar{
+        border: 1px solid greenyellow;
+        background-color: greenyellow;
+        color: black;
+    }
+    .buttonDesistir{
+        border: 1px solid grey;
+        background-color: grey;
+        color: black;
+    }
+
+    h3{
+        display: inline;
+    }
+    h5{
+        margin-top: 10px;
+    }
+
+    ul{
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    ul li{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin: 4px 0px;
+        padding: 3px 0px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border-radius: 3px;
+    }
+
+
+</style>
